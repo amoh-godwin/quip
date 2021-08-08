@@ -1,0 +1,46 @@
+<html>
+   <head>
+       <meta name="viewport" content="width=device-width, initial-scale=1">
+       <style>
+           img {
+             display: block;
+             margin-left: auto;
+             margin-right: auto;
+             margin-top: 12px;
+             margin-bottom: 12px;
+           }
+       </style>
+       <link href="./lib/main.css" rel="stylesheet" />
+   </head>
+   <body style="background-color:#1565c0;">
+       <script src="./lib/microapp.js"></script>
+       <script>sayHello()</script>
+       
+
+       <main>
+
+            <div>
+                <img src="logo.png" style="width:72px;"/>
+            </div>
+
+           <div id="accordion">
+                <button class="accordion">Section 1</button>
+                <div class="panel">
+                    <p>Lorem ipsum...</p>
+                </div>
+
+                <button class="accordion">Section 2</button>
+                <div class="panel">
+                    <p>Lorem ipsum...</p>
+                </div>
+
+                <button class="accordion">Section 3</button>
+                <div class="panel">
+                    <p>Lorem ipsum...</p>
+                </div> 
+           </div>
+       </main>
+
+       <script>getAccordion()</script>
+   </body>
+</html>
