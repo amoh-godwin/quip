@@ -1,0 +1,17 @@
+<!Doctype html>
+<html>
+    <head>
+        <title>Upload Gif</title>
+
+    </head>
+    <body>
+        <h1>Hello</h1>
+        <form method="POST" enctype="multipart/form-data" action="/api/gif_access/v1/uploader">
+            <p>Category</p>
+            <select name="category">
+                <option>One</option>
+            </select>
+            <input type="file" name="files" multiple="true" />
+        </form>
+    </body>
+</html>
