@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
 import gif_access
-# from dependencies import gif_drive
+from dependencies import gif_drive
 
 
 app =  FastAPI()
