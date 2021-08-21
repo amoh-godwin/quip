@@ -38,7 +38,7 @@ def front_upload(
     ):
 
     for f_obj in happy_files:
-        ext = os.path.splitext(f_obj.filename)
+        ext = os.path.splitext(f_obj.filename)[-1]
         name = str(time()).replace('.', '') + ext
         gif_drive.put(name, f_obj.file)
         gif_db.put({
