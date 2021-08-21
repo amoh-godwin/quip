@@ -1,8 +1,10 @@
+from time import time
+import os
 from typing import List
 
 from fastapi import APIRouter, File, UploadFile, Form
 
-# from dependencies import gif_drive
+from dependencies import gif_drive, gif_db
 
 
 router = APIRouter(prefix='/api/gif_access')
@@ -20,6 +22,7 @@ mime_map = {
 
 
 GIFS_DB_MODEL = {
+    'name': '',
     'category': ['happy', 'disappointed', 'funny', 'applause', 'sad', 'misc']
 }
 
@@ -35,27 +38,60 @@ def front_upload(
     ):
 
     for f_obj in happy_files:
-        name = ''
-        # gif_drive.put(name, f_obj.file)
+        ext = os.path.splitext(f_obj.filename)
+        name = str(time()).replace('.', '') + ext
+        gif_drive.put(name, f_obj.file)
+        gif_db.put({
+           'name': name,
+           'category': 'happy'
+        })
 
     for f_obj in disappointed_files:
-        name = ''
-        # gif_drive.put(name, f_obj.file)
+        ext = os.path.splitext(f_obj.filename)
+        name = str(time()).replace('.', '') + ext
+        gif_drive.put(name, f_obj.file)
+        gif_db.put({
+           'name': name,
+           'category': 'disappointed'
+        })
 
     for f_obj in funny_files:
-        name = ''
-        # gif_drive.put(name, f_obj.file)
+        ext = os.path.splitext(f_obj.filename)
+        name = str(time()).replace('.', '') + ext
+        gif_drive.put(name, f_obj.file)
+        gif_db.put({
+           'name': name,
+           'category': 'funny'
+        })
 
     for f_obj in applause_files:
-        name = ''
-        # gif_drive.put(name, f_obj.file)
+        ext = os.path.splitext(f_obj.filename)
+        name = str(time()).replace('.', '') + ext
+        gif_drive.put(name, f_obj.file)
+        gif_db.put({
+           'name': name,
+           'category': 'applause'
+        })
 
     for f_obj in sad_files:
         name = ''
-        # gif_drive.put(name, f_obj.file)
+        ext = os.path.splitext(f_obj.filename)
+        name = str(time()).replace('.', '') + ext
+        gif_drive.put(name, f_obj.file)
+        gif_db.put({
+           'name': name,
+           'category': 'sad'
+        })
 
     for f_obj in misc_files:
         name = ''
-        # gif_drive.put(name, f_obj.file)
+        ext = os.path.splitext(f_obj.filename)
+        name = str(time()).replace('.', '') + ext
+        gif_drive.put(name, f_obj.file)
+        gif_db.put({
+           'name': name,
+           'category': 'misc'
+        })
+
 
     return {'hello': [file.filename for file in happy_files]}
