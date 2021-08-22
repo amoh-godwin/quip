@@ -1,1 +1,1 @@
-{"id":"0c8b6986-462e-4c39-8927-f7a083c4e971","space":6855,"runtime":"python3.7","name":"quip","path":"6uahgo","project":"a0zyqvbc","account":"144798365827","region":"eu-central-1","deps":["fastapi"],"envs":null,"public":true,"log_level":"debug","cron":""}
+{"id":"0c8b6986-462e-4c39-8927-f7a083c4e971","space":6855,"runtime":"python3.7","name":"quip","path":"6uahgo","project":"a0zyqvbc","account":"144798365827","region":"eu-central-1","deps":["fastapi","deta","python-multipart","aiofiles"],"envs":null,"public":true,"log_level":"debug","cron":""}
