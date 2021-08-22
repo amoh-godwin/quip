@@ -4,7 +4,6 @@ import os
 from typing import List
 
 from fastapi import APIRouter, File, UploadFile, Form
-from pyffmpeg import FFmpeg
 
 from dependencies import gif_drive, gif_db
 
