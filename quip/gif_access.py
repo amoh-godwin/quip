@@ -38,6 +38,8 @@ def front_upload(
     ):
 
     for f_obj in happy_files:
+        if not f_obj.filename:
+            continue
         ext = os.path.splitext(f_obj.filename)[-1]
         name = str(time()).replace('.', '') + ext
         gif_drive.put(name, f_obj.file)
@@ -47,7 +49,9 @@ def front_upload(
         })
 
     for f_obj in disappointed_files:
-        ext = os.path.splitext(f_obj.filename)
+        if not f_obj.filename:
+            continue
+        ext = os.path.splitext(f_obj.filename)[-1]
         name = str(time()).replace('.', '') + ext
         gif_drive.put(name, f_obj.file)
         gif_db.put({
@@ -56,7 +60,9 @@ def front_upload(
         })
 
     for f_obj in funny_files:
-        ext = os.path.splitext(f_obj.filename)
+        if not f_obj.filename:
+            continue
+        ext = os.path.splitext(f_obj.filename)[-1]
         name = str(time()).replace('.', '') + ext
         gif_drive.put(name, f_obj.file)
         gif_db.put({
@@ -65,7 +71,9 @@ def front_upload(
         })
 
     for f_obj in applause_files:
-        ext = os.path.splitext(f_obj.filename)
+        if not f_obj.filename:
+            continue
+        ext = os.path.splitext(f_obj.filename)[-1]
         name = str(time()).replace('.', '') + ext
         gif_drive.put(name, f_obj.file)
         gif_db.put({
@@ -74,8 +82,9 @@ def front_upload(
         })
 
     for f_obj in sad_files:
-        name = ''
-        ext = os.path.splitext(f_obj.filename)
+        if not f_obj.filename:
+            continue
+        ext = os.path.splitext(f_obj.filename)[-1]
         name = str(time()).replace('.', '') + ext
         gif_drive.put(name, f_obj.file)
         gif_db.put({
@@ -84,8 +93,9 @@ def front_upload(
         })
 
     for f_obj in misc_files:
-        name = ''
-        ext = os.path.splitext(f_obj.filename)
+        if not f_obj.filename:
+            continue
+        ext = os.path.splitext(f_obj.filename)[-1]
         name = str(time()).replace('.', '') + ext
         gif_drive.put(name, f_obj.file)
         gif_db.put({
