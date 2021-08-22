@@ -1,1 +1,4 @@
+deta
 fastapi
+python-multipart
+aiofiles
