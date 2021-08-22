@@ -1,8 +1,10 @@
+from posixpath import relpath
 from time import time
 import os
 from typing import List
 
 from fastapi import APIRouter, File, UploadFile, Form
+from pyffmpeg import FFmpeg
 
 from dependencies import gif_drive, gif_db
 
@@ -27,15 +29,78 @@ GIFS_DB_MODEL = {
 }
 
 
+@router.get('/list')
+def list_drive():
+    a_o_i = gif_drive.list()
+    return {'all': a_o_i}
+
+
 @router.post('/v1/uploader')
 def front_upload(
     happy_files: List[UploadFile] = File(None),
+    happy_thumbs: List[UploadFile] = File(None),
     disappointed_files: List[UploadFile] = File(None),
+    disappointed_thumbs: List[UploadFile] = File(None),
     funny_files: List[UploadFile] = File(None),
+    funny_thumbs: List[UploadFile] = File(None),
     applause_files: List[UploadFile] = File(None),
+    applause_thumbs: List[UploadFile] = File(None),
     sad_files: List[UploadFile] = File(None),
-    misc_files: List[UploadFile] = File(None)
+    sad_thumbs: List[UploadFile] = File(None),
+    misc_files: List[UploadFile] = File(None),
+    misc_thumbs: List[UploadFile] = File(None)
     ):
+
+    status = 'All is well'
+
+    happy_thumbs_map = {}
+    disappointed_thumbs_map = {}
+    funny_thumbs_map = {}
+    applause_thumbs_map = {}
+    sad_thumbs_map = {}
+    misc_thumbs_map = {}
+
+    for f_obj in happy_thumbs:
+        if not f_obj.filename:
+            continue
+        key = f_obj.filename
+        value = f_obj.file
+        happy_thumbs_map[key] = value
+
+    for f_obj in disappointed_thumbs:
+        if not f_obj.filename:
+            continue
+        key = f_obj.filename
+        value = f_obj.file
+        disappointed_thumbs_map[key] = value
+
+    for f_obj in funny_thumbs:
+        if not f_obj.filename:
+            continue
+        key = f_obj.filename
+        value = f_obj.file
+        funny_thumbs_map[key] = value
+
+    for f_obj in applause_thumbs:
+        if not f_obj.filename:
+            continue
+        key = f_obj.filename
+        value = f_obj.file
+        applause_thumbs_map[key] = value
+
+    for f_obj in sad_thumbs:
+        if not f_obj.filename:
+            continue
+        key = f_obj.filename
+        value = f_obj.file
+        sad_thumbs_map[key] = value
+
+    for f_obj in misc_thumbs:
+        if not f_obj.filename:
+            continue
+        key = f_obj.filename
+        value = f_obj.file
+        misc_thumbs_map[key] = value
 
     for f_obj in happy_files:
         if not f_obj.filename:
@@ -43,9 +108,19 @@ def front_upload(
         ext = os.path.splitext(f_obj.filename)[-1]
         name = str(time()).replace('.', '') + ext
         gif_drive.put(name, f_obj.file)
+
+        if ext == '.mp4':
+            thumb_name = f_obj.filename.replace(ext, '.jpg')
+            data = happy_thumbs_map[thumb_name]
+            thumb_name = name.replace(ext, '.jpg')
+            gif_drive.put(thumb_name, data)
+        else:
+            thumb_name = ''
+
         gif_db.put({
            'name': name,
-           'category': 'happy'
+           'category': 'happy',
+           'thumbnail': thumb_name
         })
 
     for f_obj in disappointed_files:
@@ -54,9 +129,19 @@ def front_upload(
         ext = os.path.splitext(f_obj.filename)[-1]
         name = str(time()).replace('.', '') + ext
         gif_drive.put(name, f_obj.file)
+
+        if ext == '.mp4':
+            thumb_name = f_obj.filename.replace(ext, '.jpg')
+            data = happy_thumbs_map[thumb_name]
+            thumb_name = name.replace(ext, '.jpg')
+            gif_drive.put(thumb_name, data)
+        else:
+            thumb_name = ''
+
         gif_db.put({
            'name': name,
-           'category': 'disappointed'
+           'category': 'happy',
+           'thumbnail': thumb_name
         })
 
     for f_obj in funny_files:
@@ -65,9 +150,19 @@ def front_upload(
         ext = os.path.splitext(f_obj.filename)[-1]
         name = str(time()).replace('.', '') + ext
         gif_drive.put(name, f_obj.file)
+
+        if ext == '.mp4':
+            thumb_name = f_obj.filename.replace(ext, '.jpg')
+            data = happy_thumbs_map[thumb_name]
+            thumb_name = name.replace(ext, '.jpg')
+            gif_drive.put(thumb_name, data)
+        else:
+            thumb_name = ''
+
         gif_db.put({
            'name': name,
-           'category': 'funny'
+           'category': 'happy',
+           'thumbnail': thumb_name
         })
 
     for f_obj in applause_files:
@@ -76,9 +171,19 @@ def front_upload(
         ext = os.path.splitext(f_obj.filename)[-1]
         name = str(time()).replace('.', '') + ext
         gif_drive.put(name, f_obj.file)
+
+        if ext == '.mp4':
+            thumb_name = f_obj.filename.replace(ext, '.jpg')
+            data = happy_thumbs_map[thumb_name]
+            thumb_name = name.replace(ext, '.jpg')
+            gif_drive.put(thumb_name, data)
+        else:
+            thumb_name = ''
+
         gif_db.put({
            'name': name,
-           'category': 'applause'
+           'category': 'happy',
+           'thumbnail': thumb_name
         })
 
     for f_obj in sad_files:
@@ -87,9 +192,19 @@ def front_upload(
         ext = os.path.splitext(f_obj.filename)[-1]
         name = str(time()).replace('.', '') + ext
         gif_drive.put(name, f_obj.file)
+
+        if ext == '.mp4':
+            thumb_name = f_obj.filename.replace(ext, '.jpg')
+            data = happy_thumbs_map[thumb_name]
+            thumb_name = name.replace(ext, '.jpg')
+            gif_drive.put(thumb_name, data)
+        else:
+            thumb_name = ''
+
         gif_db.put({
            'name': name,
-           'category': 'sad'
+           'category': 'happy',
+           'thumbnail': thumb_name
         })
 
     for f_obj in misc_files:
@@ -98,10 +213,19 @@ def front_upload(
         ext = os.path.splitext(f_obj.filename)[-1]
         name = str(time()).replace('.', '') + ext
         gif_drive.put(name, f_obj.file)
+
+        if ext == '.mp4':
+            thumb_name = f_obj.filename.replace(ext, '.jpg')
+            data = happy_thumbs_map[thumb_name]
+            thumb_name = name.replace(ext, '.jpg')
+            gif_drive.put(thumb_name, data)
+        else:
+            thumb_name = ''
+
         gif_db.put({
            'name': name,
-           'category': 'misc'
+           'category': 'happy',
+           'thumbnail': thumb_name
         })
 
-
-    return {'hello': [file.filename for file in happy_files]}
+    return {'status': status}
