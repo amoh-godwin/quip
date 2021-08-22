@@ -24,7 +24,8 @@ mime_map = {
 
 GIFS_DB_MODEL = {
     'name': '',
-    'category': ['happy', 'disappointed', 'funny', 'applause', 'sad', 'misc']
+    'category': ['happy', 'disappointed', 'funny', 'applause', 'sad', 'misc'],
+    'thumbnail': ""
 }
 
 
@@ -228,3 +229,19 @@ def front_upload(
         })
 
     return {'status': status}
+
+
+@router.get('/v1/gifs')
+def get_gifs():
+    gifs_map = {
+        'happy': [], 'disappointed': [],
+        'funny': [], 'applause': [],
+        'sad': [], 'misc': []
+    }
+    gifs = gif_db.fetch().items
+
+    for row in gifs:
+        cat = row['category']
+        gifs_map[cat].append(row['thumbnail'])
+
+    return gifs_map
