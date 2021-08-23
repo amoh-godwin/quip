@@ -240,7 +240,7 @@ def front_upload(
 
 @router.get('/v1/gifs')
 def get_gifs():
-    gifs_map = {
+    gifs_map_model = {
         'happy': {'items': [], 'last': ""},
         'disappointed': {'items': [], 'last': ""},
         'funny': {'items': [], 'last': ""},
@@ -249,13 +249,16 @@ def get_gifs():
         'misc': {'items': [], 'last': ""}
     }
 
-    for key in gifs_map:
+    gifs_map = {}
+
+    for key in gifs_map_model:
         resp = gif_db.fetch({'category': key}, limit=8)
         items = []
-        for row in resp.items:
-            items.append(row['thumbnail'])
+        if resp.items:
+            for row in resp.items:
+                items.append(row['thumbnail'])
 
-        gifs_map[key]['items'] = items
-        gifs_map[key]['last'] = resp.last
+            gifs_map[key]['items'] = items
+            gifs_map[key]['last'] = resp.last
 
     return gifs_map
