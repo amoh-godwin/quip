@@ -4,6 +4,7 @@ import os
 from typing import List
 
 from fastapi import APIRouter, File, UploadFile, Form
+from starlette import responses
 
 from dependencies import gif_drive, gif_db
 
@@ -121,7 +122,7 @@ def front_upload(
             thumb_name = name.replace(ext, '.jpg')
             gif_drive.put(thumb_name, data)
         else:
-            thumb_name = ''
+            thumb_name = name
 
         gif_db.put({
            'name': name,
@@ -142,7 +143,7 @@ def front_upload(
             thumb_name = name.replace(ext, '.jpg')
             gif_drive.put(thumb_name, data)
         else:
-            thumb_name = ''
+            thumb_name = name
 
         gif_db.put({
            'name': name,
@@ -163,7 +164,7 @@ def front_upload(
             thumb_name = name.replace(ext, '.jpg')
             gif_drive.put(thumb_name, data)
         else:
-            thumb_name = ''
+            thumb_name = name
 
         gif_db.put({
            'name': name,
@@ -184,7 +185,7 @@ def front_upload(
             thumb_name = name.replace(ext, '.jpg')
             gif_drive.put(thumb_name, data)
         else:
-            thumb_name = ''
+            thumb_name = name
 
         gif_db.put({
            'name': name,
@@ -205,7 +206,7 @@ def front_upload(
             thumb_name = name.replace(ext, '.jpg')
             gif_drive.put(thumb_name, data)
         else:
-            thumb_name = ''
+            thumb_name = name
 
         gif_db.put({
            'name': name,
@@ -226,7 +227,7 @@ def front_upload(
             thumb_name = name.replace(ext, '.jpg')
             gif_drive.put(thumb_name, data)
         else:
-            thumb_name = ''
+            thumb_name = name
 
         gif_db.put({
            'name': name,
@@ -240,14 +241,21 @@ def front_upload(
 @router.get('/v1/gifs')
 def get_gifs():
     gifs_map = {
-        'happy': [], 'disappointed': [],
-        'funny': [], 'applause': [],
-        'sad': [], 'misc': []
+        'happy': {'items': [], 'last': ""},
+        'disappointed': {'items': [], 'last': ""},
+        'funny': {'items': [], 'last': ""},
+        'applause': {'items': [], 'last': ""},
+        'sad': {'items': [], 'last': ""},
+        'misc': {'items': [], 'last': ""}
     }
-    gifs = gif_db.fetch().items
 
-    for row in gifs:
-        cat = row['category']
-        gifs_map[cat].append(row['thumbnail'])
+    for key in gifs_map:
+        resp = gif_db.fetch({'category': key}, limit=8)
+        items = []
+        for row in resp.items:
+            items.append(row['thumbnail'])
+
+        gifs_map[key]['items'] = items
+        gifs_map[key]['last'] = resp.last
 
     return gifs_map
