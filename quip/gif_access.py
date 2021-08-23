@@ -34,6 +34,12 @@ def list_drive():
     a_o_i = gif_drive.list()
     return {'all': a_o_i}
 
+@router.get('/delete')
+def delete_drive():
+    a_o_i = gif_drive.list()
+    names = a_o_i['names']
+    ret = gif_drive.delete_many(names)
+    return {'all': ret}
 
 @router.post('/v1/uploader')
 def front_upload(
@@ -132,7 +138,7 @@ def front_upload(
 
         if ext == '.mp4':
             thumb_name = f_obj.filename.replace(ext, '.jpg')
-            data = happy_thumbs_map[thumb_name]
+            data = disappointed_thumbs_map[thumb_name]
             thumb_name = name.replace(ext, '.jpg')
             gif_drive.put(thumb_name, data)
         else:
@@ -140,7 +146,7 @@ def front_upload(
 
         gif_db.put({
            'name': name,
-           'category': 'happy',
+           'category': 'disappointed',
            'thumbnail': thumb_name
         })
 
@@ -153,7 +159,7 @@ def front_upload(
 
         if ext == '.mp4':
             thumb_name = f_obj.filename.replace(ext, '.jpg')
-            data = happy_thumbs_map[thumb_name]
+            data = funny_thumbs_map[thumb_name]
             thumb_name = name.replace(ext, '.jpg')
             gif_drive.put(thumb_name, data)
         else:
@@ -161,7 +167,7 @@ def front_upload(
 
         gif_db.put({
            'name': name,
-           'category': 'happy',
+           'category': 'funny',
            'thumbnail': thumb_name
         })
 
@@ -174,7 +180,7 @@ def front_upload(
 
         if ext == '.mp4':
             thumb_name = f_obj.filename.replace(ext, '.jpg')
-            data = happy_thumbs_map[thumb_name]
+            data = applause_thumbs_map[thumb_name]
             thumb_name = name.replace(ext, '.jpg')
             gif_drive.put(thumb_name, data)
         else:
@@ -182,7 +188,7 @@ def front_upload(
 
         gif_db.put({
            'name': name,
-           'category': 'happy',
+           'category': 'applause',
            'thumbnail': thumb_name
         })
 
@@ -195,7 +201,7 @@ def front_upload(
 
         if ext == '.mp4':
             thumb_name = f_obj.filename.replace(ext, '.jpg')
-            data = happy_thumbs_map[thumb_name]
+            data = sad_thumbs_map[thumb_name]
             thumb_name = name.replace(ext, '.jpg')
             gif_drive.put(thumb_name, data)
         else:
@@ -203,7 +209,7 @@ def front_upload(
 
         gif_db.put({
            'name': name,
-           'category': 'happy',
+           'category': 'sad',
            'thumbnail': thumb_name
         })
 
@@ -216,7 +222,7 @@ def front_upload(
 
         if ext == '.mp4':
             thumb_name = f_obj.filename.replace(ext, '.jpg')
-            data = happy_thumbs_map[thumb_name]
+            data = misc_thumbs_map[thumb_name]
             thumb_name = name.replace(ext, '.jpg')
             gif_drive.put(thumb_name, data)
         else:
@@ -224,7 +230,7 @@ def front_upload(
 
         gif_db.put({
            'name': name,
-           'category': 'happy',
+           'category': 'misc',
            'thumbnail': thumb_name
         })
 
