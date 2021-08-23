@@ -34,6 +34,12 @@ def list_drive():
     a_o_i = gif_drive.list()
     return {'all': a_o_i}
 
+@router.get('/delete')
+def delete_drive():
+    a_o_i = gif_drive.list()
+    names = a_o_i['names']
+    ret = gif_drive.delete_many(names)
+    return {'all': ret}
 
 @router.post('/v1/uploader')
 def front_upload(
