@@ -4,7 +4,7 @@ import os
 from typing import List
 
 from fastapi import APIRouter, File, UploadFile, Form
-from starlette import responses
+from fastapi.responses import StreamingResponse
 
 from dependencies import gif_drive, gif_db
 
@@ -16,10 +16,11 @@ mime_map = {
     '.bmp': 'image/bmp',
     '.gif': 'image/gif',
     '.jpeg': 'image/jpeg',
-    '.jpg': 'image/jpeg',
+    '.jpg': 'image/jpg',
     '.svg': 'image/svg+xml',
     '.tiff': 'image/tiff',
-    '.wmf': 'image/wmf'
+    '.wmf': 'image/wmf',
+    '.mp4': "video/mp4"
 }
 
 
@@ -255,6 +256,9 @@ def get_gifs():
         resp = gif_db.fetch({'category': key}, limit=8)
         items = []
         if resp.items:
+
+            gifs_map[key] = {'items': [], 'last': ""}
+
             for row in resp.items:
                 items.append(row['thumbnail'])
 
@@ -262,3 +266,11 @@ def get_gifs():
             gifs_map[key]['last'] = resp.last
 
     return gifs_map
+
+
+@router.get('/v1/{name}')
+def get_media(name: str):
+    ext = os.path.splitext(name)[-1]
+    mime = mime_map[ext]
+    resp = gif_drive.get(name)
+    return StreamingResponse(resp.iter_chunks(1024), media_type=mime)
