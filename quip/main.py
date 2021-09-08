@@ -5,11 +5,13 @@ from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 import gif_access
+import urban_dict
 from dependencies import gif_drive, gif_db
 
 
 app =  FastAPI()
 app.include_router(gif_access.router)
+app.include_router(urban_dict.router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=['*'],
