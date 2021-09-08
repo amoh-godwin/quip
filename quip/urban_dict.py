@@ -10,7 +10,7 @@ router = APIRouter(prefix="/api/v1")
 ascii_map = {'&apos;': "'", '&quot;': '"'}
 
 
-@router.get('/query={query}')
+@router.get('/query/{query}')
 def get_query(query: str) -> List[str]:
     url = f'https://www.urbandictionary.com/define.php?term={query}'
     data = get_content(url)
