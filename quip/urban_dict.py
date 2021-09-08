@@ -19,10 +19,10 @@ def get_query(query: str) -> List[str]:
 
 
 def get_content(url: str):
-    # req = requests.get(url)
-    with open('urban.html', 'rb') as dd:
-        content = dd.read()
-    return content
+    req = requests.get(url)
+    """ with open('urban.html', 'rb') as dd:
+        content = dd.read() """
+    return req.content
 
 
 def parse(raw_data: bytes):
@@ -52,5 +52,3 @@ def clean(data):
     for x in ascii_map:
         strs = strs.replace(x, ascii_map[x])
     return strs
-
-get_query('')
